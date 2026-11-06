@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Instructions</h5>
+        <p>You are given a partially filled 6x6 Sudoku grid. The grid is divided into six 2x3 boxes.</p>
+        <p>Rules:</p>
+        <ul>
+            <li>Each row must contain the digits 1 through 6 exactly once.</li>
+            <li>Each column must contain the digits 1 through 6 exactly once.</li>
+            <li>Each 2x3 box must contain the digits 1 through 6 exactly once.</li>
+        </ul>
+        <p><strong>Answer format:</strong> Enter the missing numbers in reading order (left-to-right, top-to-bottom), separated by spaces.</p>
+        <p>For example, if the first blank is 3, the second blank is 1, and the third blank is 5, enter: <code>3 1 5</code></p>
+        {% if incentive_text %}
+        <p class="text-success"><strong>{{ incentive_text }}</strong></p>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,41 @@
+{% block styles  %}
+    <link href="{{ static 'task_transcription/task_transcription.css' }}" rel="stylesheet"/>
+{% endblock %}
+
+{{ block title }}
+Transcription
+{{ endblock }}
+
+{{ block content }}
+<div class="task-wrapper" data-task="task_transcription" data-page="Game">
+    {{ include C.INSTRUCTION_TEMPLATE }}
+    <br>
+    <div class="d-flex flex-column align-items-center">
+        <h3>
+            Iteration <span id="iter-txt"></span>
+        </h3>
+        <p>Solved: <span id="solved-txt"></span>. Failed: <span id="failed-txt"></span>.</p>
+        <img class="captcha m-1 task-stimulus" id="captcha-img">
+
+        <div class="input-group m-1 task-question" data-type="text" data-qid="answer">
+            <input type="{{ input_type }}" id="answer-inp" class="form-control task-input"
+                   placeholder="{{ placeholder }}"
+                   autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button type="button" id="submit-btn" class="btn btn-outline-secondary task-submit">Submit</button>
+        </div>
+
+        <p class="warn" id="warning-txt"></p>
+    </div>
+</div>
+
+<form id="form" style="display:none">
+    <input type="hidden" name="iteration" value="">
+</form>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'task_transcription/task_transcription.js' }}"></script>
+<script src="{{ static 'shared/puzzle_timer.js' }}"></script>
+{{ if DEBUG }}<script src="{{ static 'task_transcription/task_transcription_cheating.js' }}"></script>{{ endif }}
+{{ endblock }}

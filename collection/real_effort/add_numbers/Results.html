@@ -1,0 +1,15 @@
+{{ block title }}
+Results
+{{ endblock }}
+
+{{ block content }}
+<div class="task-wrapper" data-task="add_numbers" data-page="Results">
+    <p>
+        You have tried {{ player.num_trials }} puzzles, successfully solved {{ player.num_correct }},
+        and failed {{ player.num_failed }}.
+    </p>
+    <p>This task is concluded.{{ if incentive }} If this task is selected for payment,
+    you will receive a bonus of <strong>{{ bonus }}</strong>.{{ endif }}</p>
+    {{ next_button }}
+</div>
+{{ endblock }}

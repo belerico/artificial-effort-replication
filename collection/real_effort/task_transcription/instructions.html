@@ -1,0 +1,12 @@
+<div class="card bg-light m-3">
+    <div class="card-body">
+        <h5 class="card-title">Instructions</h5>
+        <p class="card-text">
+            Type the characters shown in the distorted image.
+            The text contains uppercase letters (A-Z) and digits (0-9).
+        </p>
+        {% if incentive_text %}
+        <p class="text-success"><strong>{{ incentive_text }}</strong></p>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,69 @@
+== Sample sizes ==
+  LLMs tested                                                                      23   paper: 23
+  tasks                                                                             8   paper: eight
+  trials per LLM run                                                               20   paper: 20
+
+== Method, human benchmark (Experimental setup) ==
+  participants on Day 1                                                            36   paper: 36
+  Day-1 participants who also attended Day 2                                       33   paper: 33
+  additional participants on Day 2                                                  6   paper: 6
+  student-task observations                                                       297   paper: 297
+
+== Result 1: Task difficulty (T0 accuracy, mean over the 23 LLMs) ==
+  LLM accuracy, add_numbers                                                    100.0%   paper: 100%
+  LLM accuracy, task_summation                                                  97.6%   paper: 97.6%
+  LLM accuracy, task_decoding                                                   94.1%   paper: 94.1%
+  LLM accuracy, task_sequences                                                  90.0%   paper: 90.0%
+  LLM accuracy, sudoku_game                                                     25.0%   paper: 25.0%
+  LLM accuracy, counting_zeros                                                  27.2%   paper: 27.2%
+  LLM accuracy, string_entry                                                    37.0%   paper: 37.0%
+  LLM accuracy, task_transcription                                              77.4%   paper: 77.4%
+  LLM - human, Addition (pp, p)                                          11.9, p=0.004   paper: 11.9 pp
+  LLM - human, Sequence Completion (pp, p)                               15.3, p=0.000   paper: 15.3 pp
+  LLM - human, Pair Summation (pp, p)                                    7.6, p=0.064   paper: 7.6 pp, p=0.064
+  LLM - human, Letter Decoding (pp, p)                                   -1.5, p=0.708   paper: -1.5 pp, p=0.708
+  LLM - human, Sudoku (pp, p)                                            -60.9, p=0.000   paper: 61 pp, p<0.001
+  LLM - human, Counting Zeros (pp, p)                                    -60.6, p=0.000   paper: 60.6 pp, p<0.001
+  LLM - human, String Entry (pp, p)                                      -54.7, p=0.000   paper: 55 pp, p<0.001
+  LLM - human, Distorted Text (pp, p)                                    -16.5, p=0.000   paper: 16.5 pp, p<0.001
+
+== Result 2: Performance across providers, tiers, and tasks ==
+  average accuracy, claude-opus-4.5                                             81.9%   paper: above 80%
+  average accuracy, claude-opus-4.6                                             81.2%   paper: above 80%
+  average accuracy, gemini-3.1-pro                                              82.5%   paper: above 80%
+  average accuracy, gpt-5.4                                                     82.5%   paper: above 80%
+  best top-tier - best mid-tier, Anthropic (pp)                                   6.2   paper: between 4 and 14
+  best top-tier - best mid-tier, Google (pp)                                      3.7   paper: between 4 and 14
+  best top-tier - best mid-tier, OpenAI (pp)                                     13.7   paper: between 4 and 14
+  gemini-2.5-pro -> gemini-3.1-pro (pp)                                         +21.9   paper: 22
+  gpt-5 -> gpt-5.4 (pp)                                                         +21.2   paper: 21
+  claude-sonnet-3.7 -> claude-sonnet-4.5 (pp)                                   +11.2   paper: 11
+  claude-sonnet-4.5 -> claude-sonnet-4.6 (pp)                                    -2.5   paper: slight regression
+
+== Result 3: Cost-accuracy trade-offs ==
+  accuracy and per-task cost C_m, gpt-5.4                                82.5%, $0.210   paper: 82.5%, < $0.25
+  accuracy and per-task cost C_m, gemini-3.1-pro                         82.5%, $0.236   paper: 82.5%, < $0.25
+  accuracy and per-task cost C_m, gemini-3.1-flash-lite                  78.8%, $0.031   paper: 79%, $0.03
+  cheapest models: accuracy and C_m, gemini-2.5-flash-lite               59.4%, $0.010   paper: 58-60% (Result 3); around 60%, C_m < $0.05 (Discussion)
+  cheapest models: accuracy and C_m, gpt-5.4-nano                        60.0%, $0.023   paper: 58-60% (Result 3); around 60%, C_m < $0.05 (Discussion)
+  cheapest models: accuracy and C_m, gemini-3.1-flash-lite               78.8%, $0.031   paper: 58-60% (Result 3); around 60%, C_m < $0.05 (Discussion)
+  cheapest models: accuracy and C_m, gpt-5-mini                          58.8%, $0.046   paper: 58-60% (Result 3); around 60%, C_m < $0.05 (Discussion)
+  cheapest models: accuracy and C_m, gemini-2.5-flash                    58.1%, $0.051   paper: 58-60% (Result 3); around 60%, C_m < $0.05 (Discussion)
+  best model on counting_zeros                                           gemini-3.1-pro, 85.0%   paper: Gemini 3.1 Pro, 85%
+  best model on sudoku_game                                              gpt-5.2, 85.0%   paper: GPT-5.2, 85%
+  best model on string_entry                                             gemini-3.1-pro, 75.0%   paper: Gemini 3.1 Pro, 75%
+  average accuracy, best model per task                                         93.1%   paper: 93.1%
+  gain over the best single model (pp)                                           10.6   paper: 11 pp
+  lowest net gain G_m (o3)                                                      $2.66   paper: $2.66 (o3)
+  highest net gain G_m (gpt-5.4)                                                $3.92   paper: $3.92 (GPT-5.4)
+
+== Discussion and Conclusions ==
+  most expensive model C_m (claude-opus-4.5)                                   $0.392   paper: Claude Opus 4.5, below $0.40
+
+== Appendix: Verbal Monetary Incentives (mean over the 23 LLMs) ==
+  accuracy, T0: Control                                                         68.5%   paper: 68.5%
+  accuracy, T1: Std No Inc                                                      68.1%   paper: 68.1%
+  accuracy, T2: Std Inc                                                         68.6%   paper: 68.6%
+  accuracy, T3: Hum No Inc                                                      68.6%   paper: 68.6%
+  accuracy, T4: Hum Inc                                                         68.6%   paper: 68.6%
+  incentive deltas within +/-10 pp                                              79.9%   paper: about 80%

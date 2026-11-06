@@ -1,0 +1,37 @@
+{% block styles  %}
+    <link href="{{ static 'counting_zeros/counting_zeros.css' }}" rel="stylesheet"/>
+{% endblock %}
+
+{{ block title }}
+Count Zeros
+{{ endblock }}
+
+{{ block content }}
+<div class="task-wrapper" data-task="counting_zeros" data-page="Game">
+    {{ include C.INSTRUCTION_TEMPLATE }}
+    <br>
+    <div class="d-flex flex-column align-items-center">
+        <h3>
+            Iteration <span id="iter-txt"></span>
+        </h3>
+        <p>Solved: <span id="solved-txt"></span>. Failed: <span id="failed-txt"></span>.</p>
+        <img class="captcha m-1 task-stimulus" id="captcha-img">
+
+        <div class="input-group m-1 task-question" data-type="number" data-qid="answer">
+            <input type="{{ input_type }}" id="answer-inp" class="form-control task-input"
+                   placeholder="{{ placeholder }}"
+                   autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button type="button" id="submit-btn" class="btn btn-outline-secondary task-submit">Submit</button>
+        </div>
+
+        <p class="warn" id="warning-txt"></p>
+    </div>
+</div>
+
+{{ endblock }}
+
+{{ block scripts }}
+<script src="{{ static 'counting_zeros/counting_zeros.js' }}"></script>
+<script src="{{ static 'shared/puzzle_timer.js' }}"></script>
+{{ if DEBUG }}<script src="{{ static 'counting_zeros/counting_zeros_cheating.js' }}"></script>{{ endif }}
+{{ endblock }}

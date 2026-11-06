@@ -1,0 +1,150 @@
+# oTree (human experiment) configuration
+# Read by the oTree apps via config.get_game_config() — game_defaults + per-game
+# params for the human study. The LLM benchmark uses benchmark_config_llm.yaml.
+# (The global model/sampling settings below are kept for reference; oTree ignores
+# them and reads only `game_defaults` and `games`.)
+
+# Global benchmark settings (read by run_benchmarks.py only)
+models:
+  # Anthropic — vision ✓, supports: temperature, max_tokens, top_p, top_k, reasoning.max_tokens
+  - anthropic/claude-opus-4.6                           # (Feb 2026)
+  - anthropic/claude-sonnet-4.6                         # (Feb 2026)
+  - anthropic/claude-opus-4.5                           # (Nov 2025)
+  - anthropic/claude-sonnet-4.5                         # (Sep 2025)
+  - anthropic/claude-haiku-4.5                          # small/fast, cheapest Claude  (Oct 2025)
+  - anthropic/claude-sonnet-4                           # (May 2025)
+  - anthropic/claude-3.7-sonnet                         # oldest reasoning Sonnet      (Feb 2025)
+  # Google — vision ✓, supports: temperature, max_tokens, top_p, reasoning.max_tokens
+  - google/gemini-3.1-pro-preview                       # (Feb 2026)
+  - google/gemini-3.1-flash-lite-preview                # (Mar 2026)
+  - google/gemini-3-flash-preview                       # (Dec 2025)
+  - google/gemini-2.5-pro                               # (Jun 2025)
+  - google/gemini-2.5-flash                             # (Jun 2025)
+  - google/gemini-2.5-flash-lite                        # (Jul 2025)
+  # OpenAI — vision ✓, reasoning models (NO temperature)
+  - openai/gpt-5.4                                      # (Mar 2026)
+  - openai/gpt-5.4-mini                                 # (Mar 2026)
+  - openai/gpt-5.4-nano                                 # (Mar 2026)
+  - openai/gpt-5.2                                      # (Dec 2025)
+  - openai/gpt-5.1                                      # (Nov 2025)
+  - openai/gpt-5                                        # (Aug 2025)
+  - openai/gpt-5-mini                                   # (Aug 2025)
+  - openai/o3                                           # reasoning flagship  (Apr 2025)
+  - openai/o4-mini                                      # small reasoning     (Apr 2025)
+  - openai/o4-mini-high                                 # o4-mini high effort (Apr 2025)
+
+fast: true
+otree_url: http://localhost:8000
+
+# ── Reasoning via effort (unified across all providers) ──
+# OpenRouter translates reasoning.effort to provider-specific params:
+#   Anthropic → reasoning.max_tokens (budget = max_tokens × ratio, min 1024)
+#   OpenAI   → native effort param (direct pass-through)
+#   Gemini   → thinkingLevel
+#   Qwen     → thinking_budget
+#   Kimi     → native effort
+#   Seed     → native effort
+#
+# Effort levels:  none | minimal (~10%) | low (~20%) | medium (~50%) | high (~80%) | xhigh (~95%)
+temperature: 0.6
+reasoning_effort: high        # ~80% reasoning (~1638 tokens), ~20% answer (~410 tokens)
+max_tokens: 2048              # TOTAL budget (reasoning + answer) — the only real hard cap
+
+# Reasoning budget enforcement: warn (and optionally fail) when a provider's
+# reported reasoning_tokens exceed the requested budget + tolerance.
+# enforce = false → log warnings only; true → also mark the puzzle as incorrect.
+enforce_reasoning_budget: false
+reasoning_budget_tolerance: 16
+
+# Per-model parameter overrides (optional).
+# Any key here overrides the global setting above for that model only.
+# Available keys: temperature, max_tokens, top_p, reasoning_effort, reasoning_max_tokens
+# Set a key to null to suppress the global default for that model.
+#
+# All reasoning is handled by global reasoning_effort — no per-model reasoning config needed.
+# Only override non-reasoning params (e.g. temperature) where required.
+model_configs:
+  # OpenAI — NO temperature support for reasoning models
+  openai/gpt-5.4:
+    temperature: null
+  openai/gpt-5.2:
+    temperature: null
+  openai/gpt-5.1:
+    temperature: null
+  openai/gpt-5:
+    temperature: null
+  openai/gpt-5-mini:
+    temperature: null
+  openai/o3:
+    temperature: null
+  openai/o4-mini:
+    temperature: null
+  openai/gpt-5.4-mini:
+    temperature: null
+  openai/gpt-5.4-nano:
+    temperature: null
+  openai/o4-mini-high:
+    temperature: null
+  # openai/gpt-4.1 removed (no reasoning support)
+  # openai/o3-mini removed (no vision support)
+  # Qwen — reasoning.effort auto-converted to reasoning.max_tokens in code
+  # (Qwen ignores effort, only understands thinking_budget)
+  # require_parameters: ensure provider honors reasoning params
+  qwen/qwen3.5-397b-a17b:
+    provider:
+      require_parameters: true
+  moonshotai/kimi-k2.5:
+    provider:
+      require_parameters: true
+
+# Experiment execution settings
+run_delay: 3            # seconds between runs (rate-limit protection)
+max_retries: 1          # max retries per failed run
+retry_base_delay: 10    # base delay for exponential backoff (seconds)
+max_attempts: 0         # max LLM call retries per puzzle (botex --max-attempts)
+
+# Shared defaults applied to ALL games.
+# Per-game values (under 'games') override these.
+#
+# NOTE: the shared experiment knobs — repetitions, puzzle_timeout, incentive,
+# incentive_text, bonus_per_correct — now live in settings.SESSION_CONFIG_DEFAULTS
+# so they are editable per-session from the oTree admin. session.config wins
+# over this YAML, so setting them here would have no effect on the oTree side.
+# Only per-game params (under 'games:' below) are still YAML-driven.
+game_defaults: {}
+
+# Per-game settings (read by oTree server in creating_session())
+# If 'games' is present, only listed games are benchmarked.
+# If absent, all games run with defaults.
+# Each game's value is a dict of setting overrides (or empty/null for defaults).
+#
+# Game-specific params:
+#   sudoku_game:        difficulty (float, 0.0-1.0)
+#   add_numbers:        num_addends (int), max_digits (int)
+#   counting_zeros:    rows (int), cols (int), min_zeros (int), max_zeros (int)
+#   task_decoding:      word_length (int)
+#   task_summation:     grid_size (int), target_sum (float)
+#   task_transcription: length (int)
+#   task_sequences:     (no game-specific params, CSV-based)
+#   string_entry:      length (int, characters per string, default 9)
+games:
+  sudoku_game:
+    difficulty: 0.4
+  add_numbers:
+    num_addends: 3
+    max_digits: 3
+  counting_zeros:
+    rows: 15
+    cols: 10
+    min_zeros: 35
+    max_zeros: 75
+  task_decoding:
+    word_length: 7
+  task_summation:
+    grid_size: 4
+    target_sum: 10.0
+  task_transcription:
+    length: 12
+  task_sequences:
+  string_entry:
+    length: 9
