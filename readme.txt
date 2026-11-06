@@ -299,8 +299,8 @@ References
 ----------
 
 Belotti, F., Coniglio, S., Cosma, A., and Fallucchi, F. (2026). Replication
-package for "Artificial Effort". [TO COMPLETE: repository name],
-https://doi.org/[TO COMPLETE: DOI].
+package for "Artificial Effort". Zenodo,
+https://doi.org/10.5281/zenodo.24011866.
 
 Chen, D. L., Schonger, M., and Wickens, C. (2016). oTree - An open-source
 platform for laboratory, online, and field experiments. Journal of Behavioral
